@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EVE Combat Interaction Tool</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+    <div class="header-div">
+        <img id="header-img" src="/static/eveLogo.png" alt="EVE logo" width="149" height="68">
+        <div id="header-txt">EVE Online Combat Interaction Tool</div>
+    </div>
+    <br style="clear:both" />
+    <div class="body-container">
+        <div class="no-mail-display">Interactions will display here.</div>
+        <div class="form-main">
+        <form action="{{url_for("get_pilot")}}" method="post">
+            <div class="form_fieldset">
+            <label for="pilot-name">enter a pilot name:</label>
+            <input type="text" id="pilot-name" name="pilot-name" placeholder="e.g. Nez Orlenard">
+            </div>
+
+            <div class="form_fieldset">
+                <label for="num-display">enter # of interactions (max 200):</label>
+                <input type="number" id="num-display" name="num-display">
+            </div>
+
+            <div class="submit-buttons">
+                <button type="submit" name="action" value="kills">Get Kills</button>
+                <button type="submit" name="action" value="losses">Get Losses</button>
+            </div>
+            <div class="user-instruct">Enter a pilot name above and number of interactions desired and 'Submit' kills or
+                losses, OR enter number of interactions desired below and simply click 'Random Pilot' for a random
+                result. After display, export or search again for new pilot info.
+            </div>
+            <div class="form_fieldset">
+                <label for="rand-num-display">enter # of interactions (max 200):</label>
+                <input type="number" id="rand-num-display" name="rand-num-display">
+            </div>
+            <div class="random-submit">
+                <button type="submit" name="rand-action" value="kills" formaction="{{url_for("get_random")}}">Random Pilot Kills</button>
+                <button type="submit" name="rand-action" value="losses" formaction="{{url_for("get_random")}}">Random Pilot Losses</button>
+            </div>
+        </div>
+    </div>
+<!-- if flashed messages display to user -->
+{% with messages = get_flashed_messages()%}
+{% if messages%}
+    {% for message in messages%}
+    <div class="alert-warning">
+        {{ message }}
+    </div>
+    {%endfor%}
+    {%endif%}
+    {%endwith%}
+<!-- end flashed messages display -->
+</body>
+</html>

@@ -1,0 +1,111 @@
+html {
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    background-color: white;
+}
+
+body {
+    font-size: 8pt;
+    color: #1f1f1f;
+    width: 35%;
+    height: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    background: repeating-linear-gradient(
+    60deg,
+    #5b5b5b 0%,
+    #c5c0b5 100%
+    );
+    /*background-color: #737272FF;*/
+    border: 1px solid #c5c0b5FF;
+    border-radius: 3px;
+}
+
+button {
+    background-color: aquamarine;
+    border: 1px solid aquamarine;
+    border-radius: 3px;
+    color: #242424;
+    font-size: 8pt;
+    padding: 5px 10px;
+    margin: 5px 5px 5px 0;
+}
+
+.submit-buttons {
+    margin-top: 10px;
+}
+
+.header-div {
+    width: 90%;
+}
+
+#header-txt {
+    font-size: 14pt;
+    font-weight: bold;
+    padding: 15px;
+}
+
+#header-img {
+    float: left;
+    text-align: right;
+    padding: 15px;
+}
+
+.body-container {
+    height: 83%;
+    width: 95%;
+    margin: 16px;
+}
+
+.no-mail-display {
+    float: right;
+    text-align: center;
+    height: 97.5%;
+    width: 50%;
+    border: 1px solid #e88036;
+    border-radius: 3px;
+    background-color: #ee873e;
+    overflow: auto;
+}
+
+.form-main {
+    text-align: left;
+    width: 45%;
+    height: 95%;
+    margin: 6px;
+}
+
+#num-display {
+    width: 66px;
+    height: 13px;
+}
+
+#rand-num-display {
+    width: 73px;
+    height: 13px;
+    margin-bottom: 6px;
+}
+
+#pilot-name {
+    width: 133px;
+    height: 13px;
+    margin-bottom: 4px;
+}
+
+.user-instruct {
+    text-align: justify;
+    padding: 15px 15px 15px 0;
+}
+
+.alert-warning {
+    background-color: #3b92e3;
+    color: #3a3939;
+    padding: 10px;
+    font-size: 9pt;
+}
+
+.killmails {
+    text-align: left;
+    margin-bottom: 6px;
+    border: 1px solid black;
+    padding: 10px;
+}
