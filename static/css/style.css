@@ -1,37 +1,53 @@
+/*todo: please change this god awful font*/
+@font-face {
+  font-family: "spantaran";
+  src: url("Spantaran-GE2D.ttf") format("truetype");
+}
+
 html {
-    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-    background-color: white;
+    font-family: Helvetica, sans-serif;
+    background-image: url('../images/universe.png');
+    background-size: cover;
+    height: 100%;
 }
 
 body {
-    font-size: 8pt;
-    color: #1f1f1f;
-    width: 35%;
-    height: 700px;
+    font-size: 11pt;
+    color: white;
+    width: 60%;
+    height: 98%;
     margin-left: auto;
     margin-right: auto;
-    background: repeating-linear-gradient(
-    60deg,
-    #5b5b5b 0%,
-    #c5c0b5 100%
-    );
-    /*background-color: #737272FF;*/
-    border: 1px solid #c5c0b5FF;
+    /*background: repeating-linear-gradient(*/
+    /*55deg,*/
+    /*#c5c0b5 0%,*/
+    /*black 100%*/
+    /*);*/
+    background-color: #131313;
+    border: 1px solid #494949;
     border-radius: 3px;
 }
 
 button {
-    background-color: aquamarine;
-    border: 1px solid aquamarine;
+    background-color: #233423;
+    border: 1px solid #233423;
     border-radius: 3px;
-    color: #242424;
-    font-size: 8pt;
+    color: antiquewhite;
+    font-size: 9pt;
     padding: 5px 10px;
     margin: 5px 5px 5px 0;
 }
 
+button:hover {
+    background-color: #A1C1A3;
+    border: 1px solid #A1C1A3;
+    color: #171616;
+    transition: 0.3s;
+}
+
 .submit-buttons {
     margin-top: 10px;
+    margin-bottom: 40px;
 }
 
 .header-div {
@@ -39,73 +55,126 @@ button {
 }
 
 #header-txt {
-    font-size: 14pt;
-    font-weight: bold;
+    font-size: 22pt;
     padding: 15px;
+    color: white;
+    font-family: "spantaran", sans-serif;
 }
 
 #header-img {
     float: left;
     text-align: right;
     padding: 15px;
+    margin-right: 40px;
+}
+
+#char-portrait {
+    float: right;
+    padding: 3px;
+    margin-bottom: 6px;
 }
 
 .body-container {
-    height: 83%;
+    height: 88%;
     width: 95%;
-    margin: 16px;
+    margin: 37px;
 }
 
-.no-mail-display {
+.mail-display {
     float: right;
     text-align: center;
-    height: 97.5%;
+    height: 87%;
     width: 50%;
-    border: 1px solid #e88036;
+    border: 1px solid #416240;
     border-radius: 3px;
-    background-color: #ee873e;
+    background:
+        linear-gradient(#1e381d, transparent),
+        linear-gradient(to top left, #2b412a, transparent),
+        linear-gradient(to top right, #1e381d, transparent);
+    background-blend-mode: screen;
     overflow: auto;
+    color: antiquewhite;
 }
 
 .form-main {
     text-align: left;
     width: 45%;
     height: 95%;
-    margin: 6px;
+    margin: 50px 6px 6px;
 }
 
 #num-display {
-    width: 66px;
+    width: 37px;
     height: 13px;
 }
 
 #rand-num-display {
-    width: 73px;
+    width: 37px;
     height: 13px;
     margin-bottom: 6px;
+    margin-top: 40px;
 }
 
 #pilot-name {
-    width: 133px;
+    width: 131px;
     height: 13px;
     margin-bottom: 4px;
+    margin-top: 35px;
 }
 
-.user-instruct {
+#user-instruct {
     text-align: justify;
     padding: 15px 15px 15px 0;
+    margin-bottom: 25px;
 }
 
 .alert-warning {
-    background-color: #3b92e3;
+    background-color: #FDC75C;
     color: #3a3939;
     padding: 10px;
     font-size: 9pt;
 }
 
+.killmails-header {
+    text-align: left;
+    padding: 10px;
+    font-weight: bold
+}
+
 .killmails {
     text-align: left;
     margin-bottom: 6px;
-    border: 1px solid black;
     padding: 10px;
+}
+
+#links {
+    margin-top: 20px;
+}
+
+a:link {
+    color: #FDC75C;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #FDC75C;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #416240;
+    text-decoration: none;
+}
+
+a:active {
+    color: #FDC75C;
+    text-decoration: none;
+}
+
+#copy-to {
+    margin-top: 20px;
+}
+
+#previous {
+    margin-top: 6px;
 }
