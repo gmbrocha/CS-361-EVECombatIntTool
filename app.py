@@ -43,8 +43,8 @@ def get_pilot():
             return render_template('killmails.html', mails=response, pilot=pilot_name, mail_type=mail_type)
         else:
             print("Error:", resp.status_code)
-            return redirect(url_for('index'))
-    return redirect(url_for('index'))
+            return render_template('index.html')
+    return render_template('index.html')
 
 
 @app.route('/random', methods=['GET', 'POST'])
@@ -57,13 +57,13 @@ def get_random():
     # validate for int, zkill requests only give up to 200 items
     if num_display > 200 or num_display < 1:
         flash('** Please enter an integer from 1 to 200. **')
-        return redirect(url_for('index'))
+        return render_template('index.html')
 
     if request.method == "POST":
 
         mail_type = request.form['rand-action']
 
-        # todo: remove and do correctly? no way to know what is non-empty response before request
+        # generate list of valid ints to try requests
         rand_list = []
         for _ in range(100):
             rand_list.append(randint(90000000, 100000000))
@@ -81,9 +81,9 @@ def get_random():
             return render_template('killmails.html', mails=response, pilot=response["charid"], mail_type=mail_type)
         else:
             print("Error:", resp.status_code)
-            return redirect(url_for('index'))
+            return render_template('index.html')
 
-    return redirect(url_for('index'))
+    return render_template('index.html')
 
 
 @app.route('/clipboard', methods=['GET', 'POST'])
