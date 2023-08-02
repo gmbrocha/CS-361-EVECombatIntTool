@@ -37,11 +37,11 @@ def gateway_service(pilot_name, mail_type, num_display):
             return jsonify(response)
         else:
             print("Error:", zkill_svc_resp.status_code)
-            return redirect(url_for('index'))
+            return render_template('index.html')
 
     else:
         print("Error:", esi_svc_resp.status_code)
-        return redirect(url_for('index'))
+        return render_template('index.html')
 
 
 @app.route('/api/gateway-rand/<random_list>/<mail_type>/<num_display>', methods=['GET'])
@@ -55,6 +55,16 @@ def rand_gateway_service(random_list, mail_type, num_display):
         zkill_svc_json = json.loads(zkill_svc_resp.text)
         if len(zkill_svc_json) != 0:
             break
+
+    # get char name
+    esi_svc_endpoint = f'http://localhost:5002/api/eve-esi-svc/{rand}'
+    esi_svc_resp = requests.get(esi_svc_endpoint)
+
+    if esi_svc_resp.status_code == 200:
+        charName = json.loads(esi_svc_resp.text)
+
+    else:
+        charName = None
 
     # call to partners link svc
     link_endpoint = f'http://localhost:5004/api/link-svc/{rand}'
@@ -70,13 +80,13 @@ def rand_gateway_service(random_list, mail_type, num_display):
 
     if zkill_svc_resp.status_code == 200:
         response = json.loads(zkill_svc_resp.text)
-        response["charid"] = rand
+        response["charName"] = charName
         links = json.loads(link_resp.text)
         response["links"] = links
         return jsonify(response)
     else:
         print("Error:", zkill_svc_resp.status_code)
-        return redirect(url_for('index'))
+        return render_template('index.html')
 
 
 if __name__ == '__main__':

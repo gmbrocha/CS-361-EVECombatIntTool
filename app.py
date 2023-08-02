@@ -16,7 +16,8 @@ def index():
 
 @app.route('/', methods=['GET', 'POST'])
 def get_pilot():
-
+    """
+    """
     # get number of interactions requested
     num_display = request.form.get("num-display")
     num_display = int(num_display)
@@ -43,13 +44,14 @@ def get_pilot():
             return render_template('killmails.html', mails=response, pilot=pilot_name, mail_type=mail_type)
         else:
             print("Error:", resp.status_code)
-            return redirect(url_for('index'))
-    return redirect(url_for('index'))
+            return render_template('index.html')
+    return render_template('index.html')
 
 
 @app.route('/random', methods=['GET', 'POST'])
 def get_random():
-
+    """
+    """
     # get number of interactions requested
     num_display = request.form.get("rand-num-display")
     num_display = int(num_display)
@@ -57,16 +59,17 @@ def get_random():
     # validate for int, zkill requests only give up to 200 items
     if num_display > 200 or num_display < 1:
         flash('** Please enter an integer from 1 to 200. **')
-        return redirect(url_for('index'))
+        return render_template('index.html')
 
     if request.method == "POST":
 
         mail_type = request.form['rand-action']
 
-        # todo: remove and do correctly? no way to know what is non-empty response before request
+        # get random list of valid ints to pass for requests until non-empty response is found
+        # rand_list = [92913101] < this is test data which is a valid character
         rand_list = []
         for _ in range(100):
-            rand_list.append(randint(90000000, 100000000))
+            rand_list.append(randint(90000000, 98000000))
         rand_list = json.dumps(rand_list)
 
         # request to gateway with the random list of valid ints, kills/losses, # of interactions
@@ -77,18 +80,19 @@ def get_random():
             response = json.loads(resp.text)
 
             # return killmails template with dynamic content (the interaction history)
-            # todo: get pilot_name and pass to render template
-            return render_template('killmails.html', mails=response, pilot=response["charid"], mail_type=mail_type)
+            return render_template('killmails.html', mails=response, pilot=response["charName"], mail_type=mail_type)
         else:
             print("Error:", resp.status_code)
-            return redirect(url_for('index'))
+            return render_template('index.html')
 
-    return redirect(url_for('index'))
+    return render_template('index.html')
 
 
 @app.route('/clipboard', methods=['GET', 'POST'])
 def clipboard():
-    return render_template('clipboard.html')
+    """
+    """
+    return render_template('clip_back.html')
 
 
 if __name__ == '__main__':
