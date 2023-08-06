@@ -1,6 +1,5 @@
 import json
 from random import randint
-
 import requests
 from flask import Flask, request, render_template, flash, redirect, url_for
 
@@ -15,6 +14,7 @@ def get_pilot():
     route accepts and in input along with a string of a specific pilot for which the # of combat interactions
     """
     if request.method == "POST":
+
         # get requested interactions, validate for, zkill API requests only give up to 20 items
         num_display = int(request.form.get("num-display"))
         if num_display > 20 or num_display < 1:
@@ -29,7 +29,13 @@ def get_pilot():
             requests.get(f'http://localhost:5001/api/gateway/{pilot_name}/{mail_type}/{num_display}')
         )
         # return parameters used to populate the killmails div
-        return render_template('killmails.html', mails=response, pilot=pilot_name, mail_type=mail_type)
+        return render_template(
+            'killmails.html',
+            mails=response,
+            pilot=pilot_name,
+            mail_type=mail_type
+        )
+
     # if GET just render index
     return render_template('index.html')
 
@@ -42,6 +48,7 @@ def get_random():
     killmail template render with all applicable data from random pilot interactions
     """
     if request.method == "POST":
+
         # get requested interactions, validate for, zkill API requests only give up to 20 items
         num_display = int(request.form.get("rand-num-display"))
         if num_display > 20 or num_display < 1:
@@ -56,7 +63,12 @@ def get_random():
             requests.get(f'http://localhost:5001/api/gateway-rand/{create_rand_char_IDs()}/{mail_type}/{num_display}')
         )
         # return parameters used to populate the killmails div
-        return render_template('killmails.html', mails=response, pilot=response["charName"], mail_type=mail_type)
+        return render_template('killmails.html',
+                               mails=response,
+                               pilot=response["charName"],
+                               mail_type=mail_type
+                               )
+
     # if GET just render index
     return render_template('index.html')
 
