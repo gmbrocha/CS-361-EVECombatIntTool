@@ -47,14 +47,9 @@ def gateway_service(pilot_name, mail_type, num_display):
 @app.route('/api/gateway-rand/<random_list>/<mail_type>/<num_display>', methods=['GET'])
 def rand_gateway_service(random_list, mail_type, num_display):
 
-    random_lst = json.loads(random_list)
+    random_list = json.loads(random_list)
 
-    for rand in random_lst:
-        zkill_endpoint = f'http://localhost:5003/api/zkill-svc/{rand}/{mail_type}/{num_display}'
-        zkill_svc_resp = requests.get(zkill_endpoint)
-        zkill_svc_json = json.loads(zkill_svc_resp.text)
-        if len(zkill_svc_json) != 0:
-            break
+    zkill_svc_resp, rand = make_random_calls(random_list, mail_type, num_display)
 
     # get char name
     esi_svc_endpoint = f'http://localhost:5002/api/eve-esi-svc/{rand}'
@@ -62,7 +57,6 @@ def rand_gateway_service(random_list, mail_type, num_display):
 
     if esi_svc_resp.status_code == 200:
         charName = json.loads(esi_svc_resp.text)
-
     else:
         charName = None
 
@@ -87,6 +81,15 @@ def rand_gateway_service(random_list, mail_type, num_display):
     else:
         print("Error:", zkill_svc_resp.status_code)
         return render_template('index.html')
+
+
+def make_random_calls(random_list: list, mail_type: str, num_display: int):
+    for rand in random_list:
+        zkill_endpoint = f'http://localhost:5003/api/zkill-svc/{rand}/{mail_type}/{num_display}'
+        zkill_svc_resp = requests.get(zkill_endpoint)
+        zkill_svc_json = json.loads(zkill_svc_resp.text)
+        if len(zkill_svc_json) != 0:
+            return zkill_svc_resp, rand
 
 
 if __name__ == '__main__':
