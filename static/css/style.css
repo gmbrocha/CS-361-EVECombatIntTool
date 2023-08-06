@@ -18,12 +18,7 @@ body {
     height: 98%;
     margin-left: auto;
     margin-right: auto;
-    /*background: repeating-linear-gradient(*/
-    /*55deg,*/
-    /*#c5c0b5 0%,*/
-    /*black 100%*/
-    /*);*/
-    background-color: #131313;
+    background-color: #111111;
     border: 1px solid #494949;
     border-radius: 3px;
 }

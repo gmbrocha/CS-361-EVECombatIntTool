@@ -116,4 +116,6 @@ def clipboard():
 
 
 if __name__ == '__main__':
+
+    # app + services run locally port 5000:5004 inclusive
     app.run(host='0.0.0.0', port=5000)
