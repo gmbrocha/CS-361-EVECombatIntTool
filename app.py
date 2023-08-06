@@ -9,35 +9,28 @@ app = Flask(__name__)
 app.secret_key = '1234567890'
 
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-
 @app.route('/', methods=['GET', 'POST'])
 def get_pilot():
     """
     route accepts and in input along with a string of a specific pilot for which the # of combat interactions
     """
-    # get number of interactions requested
-    num_display = request.form.get("num-display")
-    num_display = int(num_display)
-
-    # validate for int, zkill requests only give up to 200 items
-    validate_number_interactions(num_display)
-
-    # this can be removed, ended up having no get reqs for the route
     if request.method == "POST":
+        # get requested interactions, validate for, zkill API requests only give up to 20 items
+        num_display = int(request.form.get("num-display"))
+        if num_display > 20 or num_display < 1:
+            flash("Please enter an integer between 1 and 20.")
+            return redirect(url_for('get_pilot'))
 
-        pilot_name = request.form.get("pilot-name")
-        mail_type = request.form.get('action')  # mail type for either 'kills' or 'losses'
+        # get pilot name and mail_type (either kills or losses) from submission form
+        pilot_name, mail_type = request.form.get("pilot-name"), request.form.get('action')
 
-        # request to the gateway name, kills/losses, and # of interactions
-        resp = requests.get(f'http://localhost:5001/api/gateway/{pilot_name}/{mail_type}/{num_display}')
-
-        # check response from gateway
-        response = check_gateway_response_display(resp)
+        # request and check response from gateway
+        response = check_gateway_response_display(
+            requests.get(f'http://localhost:5001/api/gateway/{pilot_name}/{mail_type}/{num_display}')
+        )
+        # return parameters used to populate the killmails div
         return render_template('killmails.html', mails=response, pilot=pilot_name, mail_type=mail_type)
+    # if GET just render index
     return render_template('index.html')
 
 
@@ -48,39 +41,29 @@ def get_random():
     that destination API will allow); creates a random list of valid charID ints and passes them to the gateway; returns
     killmail template render with all applicable data from random pilot interactions
     """
-    # get number of interactions requested
-    num_display = request.form.get("rand-num-display")
-    num_display = int(num_display)
-
-    # validate for int, zkill requests only give up to 200 items
-    validate_number_interactions(num_display)
-
     if request.method == "POST":
+        # get requested interactions, validate for, zkill API requests only give up to 20 items
+        num_display = int(request.form.get("rand-num-display"))
+        if num_display > 20 or num_display < 1:
+            flash("Please enter an integer between 1 and 20.")
+            return redirect(url_for('get_pilot'))
+
+        # get mail type - either kills or losses
         mail_type = request.form.get('rand-action')
 
-        # get random list of valid ints to pass for requests until non-empty response is found
-        rand_list = create_rand_char_IDs()
-
-        # request to gateway with the random list of valid ints, kills/losses, # of interactions
-        resp = requests.get(f'http://localhost:5001/api/gateway-rand/{rand_list}/{mail_type}/{num_display}')
-
-        # check response from gateway
-        response = check_rand_gateway_response_display(resp)
+        # request and check response from gateway
+        response = check_rand_gateway_response_display(
+            requests.get(f'http://localhost:5001/api/gateway-rand/{create_rand_char_IDs()}/{mail_type}/{num_display}')
+        )
+        # return parameters used to populate the killmails div
         return render_template('killmails.html', mails=response, pilot=response["charName"], mail_type=mail_type)
-
+    # if GET just render index
     return render_template('index.html')
-
-
-def validate_number_interactions(interactions: int):
-    """
-    """
-    if interactions > 20 or interactions < 1:
-        flash('** Please enter an integer from 1 to 20. **')
-        return render_template('index.html')
 
 
 def create_rand_char_IDs():
     """
+    Creates and returns a random 100 element list of valid integers as potential charIDs to request from EVE ESI
     """
     rand_list = []
     for _ in range(100):
@@ -90,24 +73,26 @@ def create_rand_char_IDs():
 
 def check_rand_gateway_response_display(response):
     """
+    Redirects back to index (get_pilot) if response is bad
     """
     if response.status_code == 200:
         response = json.loads(response.text)
         return response
     else:
         print("Error:", response.status_code)
-        return render_template('index.html')
+        return redirect(url_for('get_pilot'))
 
 
 def check_gateway_response_display(response):
     """
+    Redirects back to index (get_pilot) if response is bad
     """
     if response.status_code == 200:
         response = json.loads(response.text)
         return response
     else:
         print("Error:", response.status_code)
-        return render_template('index.html')
+        return redirect(url_for('get_pilot'))
 
 
 @app.route('/clipboard', methods=['GET', 'POST'])

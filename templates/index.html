@@ -78,19 +78,19 @@
                 {% block previous %} {% endblock %}
             </div>
         </form>
-        <div id="alert-warning">
+        <div>
         <!-- if flashed messages display to user -->
         {% with messages = get_flashed_messages()%}
             {% if messages%}
                 {% for message in messages%}
-                    <div>
+                    <div id="alert-warning">
                         {{ message }}
                     </div>
                 {%endfor%}
             {%endif%}
         {%endwith%}
         </div>
-<!-- end flashed messages display -->
+        <!-- end flashed messages display -->
     </div>
 </body>
 </html>

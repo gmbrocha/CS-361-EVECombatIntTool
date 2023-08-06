@@ -181,4 +181,8 @@ a:active {
 
 #alert-warning {
     margin-top: 15px;
+    background-color: #c5c575;
+    color: #3b3b3b;
+    font-size: 8pt;
+    padding: 4px;
 }
