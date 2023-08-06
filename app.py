@@ -35,14 +35,9 @@ def get_pilot():
         # request to the gateway name, kills/losses, and # of interactions
         resp = requests.get(f'http://localhost:5001/api/gateway/{pilot_name}/{mail_type}/{num_display}')
 
-        if resp.status_code == 200:
-            response = json.loads(resp.text)
-
-            # return killmails template with dynamic content (the interaction history)
-            return render_template('killmails.html', mails=response, pilot=pilot_name, mail_type=mail_type)
-        else:
-            print("Error:", resp.status_code)
-            return render_template('index.html')
+        # check response from gateway
+        response = check_gateway_response_display(resp)
+        return render_template('killmails.html', mails=response, pilot=pilot_name, mail_type=mail_type)
     return render_template('index.html')
 
 
@@ -69,14 +64,9 @@ def get_random():
         # request to gateway with the random list of valid ints, kills/losses, # of interactions
         resp = requests.get(f'http://localhost:5001/api/gateway-rand/{rand_list}/{mail_type}/{num_display}')
 
-        if resp.status_code == 200:
-            response = json.loads(resp.text)
-
-            # return killmails template with dynamic content (the interaction history)
-            return render_template('killmails.html', mails=response, pilot=response["charName"], mail_type=mail_type)
-        else:
-            print("Error:", resp.status_code)
-            return render_template('index.html')
+        # check response from gateway
+        response = check_rand_gateway_response_display(resp)
+        return render_template('killmails.html', mails=response, pilot=response["charName"], mail_type=mail_type)
 
     return render_template('index.html')
 
@@ -84,8 +74,8 @@ def get_random():
 def validate_number_interactions(interactions: int):
     """
     """
-    if interactions > 200 or interactions < 1:
-        flash('** Please enter an integer from 1 to 200. **')
+    if interactions > 20 or interactions < 1:
+        flash('** Please enter an integer from 1 to 20. **')
         return render_template('index.html')
 
 
@@ -98,19 +88,26 @@ def create_rand_char_IDs():
     return json.dumps(rand_list)
 
 
-# def check_rand_gateway_response_display(response, mail_type):
-#     """
-#     """
-#     if response.status_code == 200:
-#         response = json.loads(response.text)
-#
-#         print(response)
-#
-#         # return killmails template with dynamic content (the interaction history)
-#         return render_template('killmails.html', mails=response, pilot=response["charName"], mail_type=mail_type)
-#     else:
-#         print("Error:", response.status_code)
-#         return render_template('index.html')
+def check_rand_gateway_response_display(response):
+    """
+    """
+    if response.status_code == 200:
+        response = json.loads(response.text)
+        return response
+    else:
+        print("Error:", response.status_code)
+        return render_template('index.html')
+
+
+def check_gateway_response_display(response):
+    """
+    """
+    if response.status_code == 200:
+        response = json.loads(response.text)
+        return response
+    else:
+        print("Error:", response.status_code)
+        return render_template('index.html')
 
 
 @app.route('/clipboard', methods=['GET', 'POST'])

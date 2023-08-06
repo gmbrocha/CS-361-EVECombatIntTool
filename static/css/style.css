@@ -178,3 +178,7 @@ a:active {
 #previous {
     margin-top: 6px;
 }
+
+#alert-warning {
+    margin-top: 15px;
+}
