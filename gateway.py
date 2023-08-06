@@ -20,7 +20,7 @@ def gateway_service(pilot_name, mail_type, num_display):
         link_endpoint = f'http://localhost:5004/api/link-svc/{resp}'
         link_resp = requests.get(link_endpoint)
 
-        zkill_endpoint = f'http://localhost:5003/api/zkill-svc/{resp}/{mail_type}/{num_display}'
+        zkill_endpoint = f'http://localhost:5003/zkill-svc/{resp}/{mail_type}/{num_display}'
         zkill_svc_resp = requests.get(zkill_endpoint)
 
         char_img_endpoint = f'https://images.evetech.net/characters/{resp}/portrait?size=64'
@@ -37,11 +37,11 @@ def gateway_service(pilot_name, mail_type, num_display):
             return jsonify(response)
         else:
             print("Error:", zkill_svc_resp.status_code)
-            return render_template('index.html')
+            return redirect(url_for('get_pilot'))
 
     else:
         print("Error:", esi_svc_resp.status_code)
-        return render_template('index.html')
+        return redirect(url_for('get_pilot'))
 
 
 @app.route('/api/gateway-rand/<random_list>/<mail_type>/<num_display>', methods=['GET'])
@@ -80,12 +80,12 @@ def rand_gateway_service(random_list, mail_type, num_display):
         return jsonify(response)
     else:
         print("Error:", zkill_svc_resp.status_code)
-        return render_template('index.html')
+        return redirect(url_for('get_pilot'))
 
 
 def make_random_calls(random_list: list, mail_type: str, num_display: int):
     for rand in random_list:
-        zkill_endpoint = f'http://localhost:5003/api/zkill-svc/{rand}/{mail_type}/{num_display}'
+        zkill_endpoint = f'http://localhost:5003/zkill-svc/{rand}/{mail_type}/{num_display}'
         zkill_svc_resp = requests.get(zkill_endpoint)
         zkill_svc_json = json.loads(zkill_svc_resp.text)
         if len(zkill_svc_json) != 0:
