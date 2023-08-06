@@ -10,7 +10,7 @@
                     <div class="killmails">
                         <hr>
                         <div style="font-weight: bold">
-                            {{ "Killmail: " + key }}
+                            {{ "Killmail ID: " + key }}
                         </div>
                         <div>
                             {{ "Ship: " + value[0] }}
@@ -57,6 +57,6 @@
 
 {% block previous %}
             <div>
-                <button type="button" name="back" value="back" onclick='history.back()'>previous pilot</button>
+                <button type="button" name="back" value="back" onclick='history.back()'>previous pilot (back)</button>
             </div>
 {% endblock %}

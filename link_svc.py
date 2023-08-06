@@ -3,7 +3,7 @@ from flask import Flask, jsonify
 app = Flask(__name__)
 
 
-@app.route('/api/link-svc/<char_id>', methods=['GET'])
+@app.route('/link-svc/<char_id>', methods=['GET'])
 def link_service(char_id):
     """
     Receives a char_id int as an argument for the route request, responds with links to relevant sites in a jsonified

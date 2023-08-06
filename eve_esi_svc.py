@@ -5,7 +5,7 @@ import requests
 app = Flask(__name__)
 
 
-@app.route('/api/eve-esi-svc/<pilot_name>', methods=['POST'])
+@app.route('/eve-esi-svc/<pilot_name>', methods=['POST'])
 def eve_esi_svc(pilot_name):
     """
     Service route receives a character name str, makes a request with it to EVE ESI, and responds to request with the
@@ -26,7 +26,7 @@ def eve_esi_svc(pilot_name):
         return redirect(url_for('get_pilot'))
 
 
-@app.route('/api/eve-esi-svc/<charID>', methods=['GET'])
+@app.route('/eve-esi-svc/<charID>', methods=['GET'])
 def eve_esi_svc_name(charID):
     """
     Service route receives a character ID, makes a request with it to EVE ESI, and responds to request with the name

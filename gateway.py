@@ -1,5 +1,5 @@
 import json
-from flask import Flask, jsonify, request, redirect, url_for, render_template
+from flask import Flask, jsonify, redirect, url_for
 import requests
 
 app = Flask(__name__)
@@ -9,7 +9,7 @@ app = Flask(__name__)
 def gateway_service(pilot_name, mail_type, num_display):
 
     # get char ID (int) from EVE ESI
-    esi_svc_endpoint = f'http://localhost:5002/api/eve-esi-svc/{pilot_name}'
+    esi_svc_endpoint = f'http://localhost:5002/eve-esi-svc/{pilot_name}'
     esi_svc_resp = requests.post(esi_svc_endpoint)
 
     # if pilot name returned valid char ID from ESI
@@ -17,7 +17,7 @@ def gateway_service(pilot_name, mail_type, num_display):
         resp = json.loads(esi_svc_resp.text)
 
         # this is the call to your service
-        link_endpoint = f'http://localhost:5004/api/link-svc/{resp}'
+        link_endpoint = f'http://localhost:5004/link-svc/{resp}'
         link_resp = requests.get(link_endpoint)
 
         zkill_endpoint = f'http://localhost:5003/zkill-svc/{resp}/{mail_type}/{num_display}'
@@ -52,7 +52,7 @@ def rand_gateway_service(random_list, mail_type, num_display):
     zkill_svc_resp, rand = make_random_calls(random_list, mail_type, num_display)
 
     # get char name
-    esi_svc_endpoint = f'http://localhost:5002/api/eve-esi-svc/{rand}'
+    esi_svc_endpoint = f'http://localhost:5002/eve-esi-svc/{rand}'
     esi_svc_resp = requests.get(esi_svc_endpoint)
 
     if esi_svc_resp.status_code == 200:
@@ -61,7 +61,7 @@ def rand_gateway_service(random_list, mail_type, num_display):
         charName = None
 
     # call to partners link svc
-    link_endpoint = f'http://localhost:5004/api/link-svc/{rand}'
+    link_endpoint = f'http://localhost:5004/link-svc/{rand}'
     link_resp = requests.get(link_endpoint)
 
     # get char avatar

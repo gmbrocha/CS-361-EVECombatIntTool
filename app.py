@@ -18,7 +18,7 @@ def get_pilot():
         # get requested interactions, validate for, zkill API requests only give up to 20 items
         num_display = int(request.form.get("num-display"))
         if num_display > 20 or num_display < 1:
-            flash("Please enter an integer between 1 and 20.")
+            flash("**Please enter an integer between 1 and 20**")
             return redirect(url_for('get_pilot'))
 
         # get pilot name and mail_type (either kills or losses) from submission form
@@ -52,7 +52,7 @@ def get_random():
         # get requested interactions, validate for, zkill API requests only give up to 20 items
         num_display = int(request.form.get("rand-num-display"))
         if num_display > 20 or num_display < 1:
-            flash("Please enter an integer between 1 and 20.")
+            flash("**Please enter an integer between 1 and 20**")
             return redirect(url_for('get_pilot'))
 
         # get mail type - either kills or losses
