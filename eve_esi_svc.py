@@ -5,37 +5,45 @@ import requests
 app = Flask(__name__)
 
 
-@app.route('/api/eve-esi-svc/<pilotName>', methods=['POST'])
-def eve_esi_svc(pilotName):
+@app.route('/api/eve-esi-svc/<pilot_name>', methods=['POST'])
+def eve_esi_svc(pilot_name):
     """
+    Service route receives a character name str, makes a request with it to EVE ESI, and responds to request with the
+    int charID associated with
     """
-    ids_endpoint = f"https://esi.evetech.net/latest/universe/ids/?datasource=tranquility&language=en"
-    payload = [pilotName]
-    esi_resp = requests.post(ids_endpoint, json=payload)
+    esi_resp = requests.post(
+        f"https://esi.evetech.net/latest/universe/ids/?datasource=tranquility&language=en",
+        json=[pilot_name]
+    )
 
+    # check ESI response status and respond to local request accordingly
     if esi_resp.status_code == 200:
         resp = json.loads(esi_resp.text)
-        charID = resp["characters"][0]["id"]
-        return jsonify(charID)
+        # get charID from the response and send back to request
+        return jsonify(resp["characters"][0]["id"])
     else:
         print("Error:", esi_resp.status_code)
-        return
+        return redirect(url_for('get_pilot'))
 
 
 @app.route('/api/eve-esi-svc/<charID>', methods=['GET'])
 def eve_esi_svc_name(charID):
     """
+    Service route receives a character ID, makes a request with it to EVE ESI, and responds to request with the name
+    associated with
     """
-    ids_endpoint = f"https://esi.evetech.net/latest/characters/{charID}/?datasource=tranquility"
-    esi_resp = requests.get(ids_endpoint)
+    esi_resp = requests.get(
+        f"https://esi.evetech.net/latest/characters/{charID}/?datasource=tranquility"
+    )
 
+    # check ESI response status and respond to local request accordingly
     if esi_resp.status_code == 200:
         resp = json.loads(esi_resp.text)
-        charName = resp["name"]
-        return jsonify(charName)
+        # get name value from the response and send back to request
+        return jsonify(resp["name"])
     else:
         print("Error:", esi_resp.status_code)
-        return
+        return redirect(url_for('get_pilot'))
 
 
 if __name__ == '__main__':
