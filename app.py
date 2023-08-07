@@ -26,7 +26,7 @@ def get_pilot():
 
         # request and check response from gateway
         response = check_gateway_response_display(
-            requests.get(f'http://localhost:5001/api/gateway/{pilot_name}/{mail_type}/{num_display}')
+            requests.get(f'http://localhost:5001/gateway/{pilot_name}/{mail_type}/{num_display}')
         )
         # return parameters used to populate the killmails div
         return render_template(
@@ -60,7 +60,7 @@ def get_random():
 
         # request and check response from gateway
         response = check_rand_gateway_response_display(
-            requests.get(f'http://localhost:5001/api/gateway-rand/{create_rand_char_IDs()}/{mail_type}/{num_display}')
+            requests.get(f'http://localhost:5001/gateway-rand/{create_rand_char_IDs()}/{mail_type}/{num_display}')
         )
         # return parameters used to populate the killmails div
         return render_template('killmails.html',

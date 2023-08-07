@@ -9,6 +9,8 @@ app = Flask(__name__)
 @app.route('/zkill-svc/<charID>/<mail_type>/<num_display>', methods=['GET'])
 def zkill_svc(charID, mail_type, num_display):
     """
+    Route accepts int charID, str mail_type (kills/losses) and int num_display (# of requested interactions) and makes
+    relevant calls to zkill and builds out a pilot interaction object to return to the gateway
     """
     # request at the endpoint for the zkill API with either kills/losses, and character ID int range (90000000-98000000)
     response = requests.get(f"https://zkillboard.com/api/{mail_type}/characterID/{charID}/")
@@ -18,8 +20,7 @@ def zkill_svc(charID, mail_type, num_display):
         ids_dicts = create_dict_list_from_killids_response(response, num_display)
 
         # generate dict of killmails and return to call
-        allmails = create_allmails_dict(ids_dicts) # pass list of dicts (from
-        return jsonify(allmails)
+        return jsonify(create_allmails_dict(ids_dicts))
     else:
         print(f'Error {response.status_code}')
         return redirect(url_for('get_pilot'))
@@ -27,6 +28,9 @@ def zkill_svc(charID, mail_type, num_display):
 
 def create_allmails_dict(ids):
     """
+    Function accepts a list of ints (kill ids) and makes requests for each to zkill, uses beautiful soup to scrape the
+    url html for relevant data and builds a dict object containing all that interaction data (ship/pilot/modules) and
+    returns the dict
     """
     allmails = {}
     for idx in ids:
@@ -48,6 +52,8 @@ def create_allmails_dict(ids):
 
 def create_kill_header_info(kill_info):
     """
+    Function accepts a beautiful soup object and parses the title for kill id/pilot interacted with/ship type and
+    returns that info as a list to be displayed as header info for each interaction
     """
     title = kill_info.title
     title_to_list = str(title.text).split("|")
@@ -59,6 +65,9 @@ def create_kill_header_info(kill_info):
 
 def create_joined_info(kill_info, kill_info_list):
     """
+    Function accepts raw str from beautiful soup and an interaction header list, parses the raw str for all relevant
+    'fittings' or modules fitted to a ship that was destroyed in an interaction, and returns a list containing the
+    header info, and all the modules (high, mid and low) fitted to the destroyed ship
     """
     fittings_highs, fittings_mids, fittings_lows = [], [], []
     for i in range(1, 9):
@@ -88,12 +97,15 @@ def create_joined_info(kill_info, kill_info_list):
 
 
 def create_dict_list_from_killids_response(response, num_display):
+    """
+    Accepts a response package containing dicts (each dict is a kill/loss interaction) and returns a list of just the
+    kill ids from each of those interactions
+    """
     to_list = json.loads(response.text)
     to_list = to_list[0:int(num_display)]
     ids = []
     for dicts in to_list:
         ids.append(dicts["killmail_id"])
-
     return ids
 
 
