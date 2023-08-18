@@ -14,7 +14,7 @@ html {
 body {
     font-size: 11pt;
     color: white;
-    width: 60%;
+    width: 40%;
     height: 98%;
     margin-left: auto;
     margin-right: auto;
@@ -99,12 +99,12 @@ button:hover {
 }
 
 #num-display {
-    width: 37px;
+    width: 46px;
     height: 13px;
 }
 
 #rand-num-display {
-    width: 37px;
+    width: 46px;
     height: 13px;
     margin-bottom: 6px;
     margin-top: 40px;
