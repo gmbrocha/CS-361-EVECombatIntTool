@@ -1,5 +1,4 @@
 import json
-import os
 from random import randint
 import requests
 from flask import Flask, request, render_template, flash, redirect, url_for
